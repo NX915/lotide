@@ -10,7 +10,15 @@ const eqArrays = function(arr1, arr2) {
     return false;
   } else {
     for (let i = 0; i < arr1.length; i++) {
-      if (arr1[i] !== arr2[i]) {
+      if (Array.isArray(arr1[i])) {
+        if (!eqArrays(arr1[i], arr2[i])) {
+          return false;
+        }
+      } else if (typeof arr1[i] === 'object') {
+        if (!eqObjects(arr1[i], arr2[i])) {
+          return false;
+        }
+      } else if (arr1[i] !== arr2[i]) {
         return false;
       }
     }
@@ -28,6 +36,10 @@ const eqObjects = function(object1, object2) {
         if (!eqArrays(object1[objKeys[i]], object2[objKeys[i]])) {
           return false;
         }
+      } else if (typeof object1[objKeys[i]] === 'object') {
+        if (!eqObjects(object1[objKeys[i]], object2[objKeys[i]])) {
+          return false;
+        }
       } else if (object1[objKeys[i]] !== object2[objKeys[i]]) {
         return false;
       }
@@ -37,6 +49,8 @@ const eqObjects = function(object1, object2) {
     return false;
   }
 };
+
+
 
 const ab = { a: "1", b: "2" };
 const ba = { b: "2", a: "1" };
@@ -54,3 +68,9 @@ assertEqual(eqObjects(cd, cd2), false); // => false
 
 const cd3 = { c: "1", d: ["2", 3, 4] };
 assertEqual(eqObjects(cd2, cd3), true); // => false
+
+assertEqual(eqObjects({ a: { z: 1 }, b: 2 }, { a: { z: 1 }, b: 2 }), true); // => true
+assertEqual(eqObjects({c: [{a: 1, b: 3}, {k: 2, o: 2}]}, {c: [{a: 1, b: 3}, {k: 2, o: 2}]}), true); // => true
+
+assertEqual(eqObjects({ a: { y: 0, z: 1 }, b: 2 }, { a: { z: 1 }, b: 2 }), false); // => false
+assertEqual(eqObjects({ a: { y: 0, z: 1 }, b: 2 }, { a: 1, b: 2 }), false); // => false
