@@ -1,7 +1,7 @@
 {
-  "name": "lotide",
+  "name": "@nx915/lotide",
   "version": "1.0.0",
-  "description": "",
+  "description": "Lodash clone by nx915",
   "main": "assertArraysEqual.js",
   "directories": {
     "test": "test"
@@ -14,7 +14,10 @@
     "url": "git+https://github.com/NX915/lotide.git"
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Sean Ni",
+    "url": "https://github.com/NX915"
+  },
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/NX915/lotide/issues"
